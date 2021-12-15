@@ -1,7 +1,8 @@
 ({
   Entity: {},
 
-  login: { type: 'string', length: { min: 8, max: 64 }, unique: true },
+  login: { type: 'string', length: { min: 3, max: 30 }, unique: true },
+  email: { type: 'string', length: { min: 5, max: 100 } },
   password: { type: 'string', note: 'Password hash' },
-  roles: { many: 'Role' },
+  createdAt: { type: 'datetime', default: 'now' },
 });

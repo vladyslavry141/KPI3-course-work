@@ -1,23 +1,54 @@
-interface Role {
-  roleId: number;
-  name: string;
+interface Identifier {
+  identifierId: number;
+  categoryId?: number;
 }
 
 interface Account {
   accountId: number;
   login: string;
+  email: string;
   password: string;
+  createdAt: string;
 }
 
-interface Country {
-  countryId: number;
+interface Folder {
+  folderId: number;
+  parentId: number;
+  name: string;
+  accountId: number;
+  creatorId: number;
+}
+
+interface Bookmark {
+  bookmarkId: number;
+  parentId: number;
+  creatorId: number;
+  name: string;
+  url: string;
+  info: string;
+}
+
+interface Category {
+  categoryId: number;
+  name: string;
+  kind: string;
+  scope: string;
+  store: string;
+  allow: string;
+}
+
+interface Field {
+  fieldId: number;
+  categoryId: number;
   name: string;
 }
 
-interface City {
-  cityId: number;
-  name: string;
-  countryId: number;
+interface Journal {
+  journalId: number;
+  identifierId: number;
+  accountId?: number;
+  action: string;
+  actionDatetime: string;
 }
 
 interface Session {
