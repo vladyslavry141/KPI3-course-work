@@ -3,8 +3,6 @@
  * For some odd reason using typeRoots results in an array of errors.
  * The problem should have been fixed by having an index file but no luck.
  * PR with the correct fix would be greatly appreciated. */
-import * as _impress from 'impress';
-
 import * as _metasql from 'metasql';
 import { Database } from 'metasql';
 
@@ -17,7 +15,10 @@ declare global {
 
   namespace lib {}
 
-  namespace domain {}
+  namespace domain {
+    const entity: {};
+    const module: {};
+  }
 
   namespace db {
     const pg: Database;
