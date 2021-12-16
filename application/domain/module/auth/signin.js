@@ -1,4 +1,4 @@
-async (login, password) => {
+async (login, password, context) => {
   const user = await domain.entity.Account.getOne(['*'], { login });
   if (!user) throw new Error('Incorrect login or password');
   const { accountId, password: hash } = user;

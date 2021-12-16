@@ -1,4 +1,4 @@
-async (login, password, email) => {
+async (login, password, email, context) => {
   const hash = await metarhia.metautil.hashPassword(password);
   try {
     await domain.entity.Account.create({ login, password: hash, email });

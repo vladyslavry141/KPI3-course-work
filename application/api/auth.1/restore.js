@@ -1,4 +1,4 @@
 ({
   access: 'public',
-  method: async ({ token }) => domain.module.auth.restore(token),
+  method: async ({ token }) => domain.module.auth.restore(token, context),
 });
