@@ -14,9 +14,8 @@ interface Account {
 interface Folder {
   folderId: number;
   parentId: number;
-  name: string;
-  accountId: number;
   creatorId: number;
+  name: string;
 }
 
 interface Bookmark {

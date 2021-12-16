@@ -18,15 +18,13 @@ CREATE UNIQUE INDEX "akAccountLogin" ON "Account" ("login");
 CREATE TABLE "Folder" (
   "id" bigint NOT NULL,
   "parentId" bigint NOT NULL,
-  "name" varchar NOT NULL,
-  "accountId" bigint NOT NULL,
-  "creatorId" bigint NOT NULL
+  "creatorId" bigint NOT NULL,
+  "name" varchar NOT NULL
 );
 
 ALTER TABLE "Folder" ADD CONSTRAINT "pkFolder" PRIMARY KEY ("id");
 ALTER TABLE "Folder" ADD CONSTRAINT "fkFolderId" FOREIGN KEY ("id") REFERENCES "Identifier" ("id");
 ALTER TABLE "Folder" ADD CONSTRAINT "fkFolderParent" FOREIGN KEY ("parentId") REFERENCES "Folder" ("id") ON DELETE CASCADE;
-ALTER TABLE "Folder" ADD CONSTRAINT "fkFolderAccount" FOREIGN KEY ("accountId") REFERENCES "Account" ("accountId") ON DELETE CASCADE;
 ALTER TABLE "Folder" ADD CONSTRAINT "fkFolderCreator" FOREIGN KEY ("creatorId") REFERENCES "Account" ("accountId") ON DELETE CASCADE;
 CREATE TABLE "Bookmark" (
   "id" bigint NOT NULL,
@@ -105,11 +103,9 @@ INSERT INTO "Category" ("id", "name", "kind") VALUES (lastval(), 'Folder', 'regi
 INSERT INTO "Identifier" DEFAULT VALUES;
 INSERT INTO "Field" ("id", "categoryId", "name") VALUES (lastval(), (SELECT "id" FROM "Category" WHERE "name" = 'Folder'), 'parent');
 INSERT INTO "Identifier" DEFAULT VALUES;
-INSERT INTO "Field" ("id", "categoryId", "name") VALUES (lastval(), (SELECT "id" FROM "Category" WHERE "name" = 'Folder'), 'name');
-INSERT INTO "Identifier" DEFAULT VALUES;
-INSERT INTO "Field" ("id", "categoryId", "name") VALUES (lastval(), (SELECT "id" FROM "Category" WHERE "name" = 'Folder'), 'account');
-INSERT INTO "Identifier" DEFAULT VALUES;
 INSERT INTO "Field" ("id", "categoryId", "name") VALUES (lastval(), (SELECT "id" FROM "Category" WHERE "name" = 'Folder'), 'creator');
+INSERT INTO "Identifier" DEFAULT VALUES;
+INSERT INTO "Field" ("id", "categoryId", "name") VALUES (lastval(), (SELECT "id" FROM "Category" WHERE "name" = 'Folder'), 'name');
 INSERT INTO "Identifier" DEFAULT VALUES;
 INSERT INTO "Category" ("id", "name", "kind") VALUES (lastval(), 'Bookmark', 'registry');
 INSERT INTO "Identifier" DEFAULT VALUES;
@@ -170,9 +166,8 @@ UPDATE "Identifier" SET "categoryId" = (SELECT "id" FROM "Category" WHERE "name"
 UPDATE "Identifier" SET "categoryId" = (SELECT "id" FROM "Category" WHERE "name" = 'Field') WHERE "id" = (SELECT "id" FROM "Field" WHERE "categoryId" = (SELECT "id" FROM "Category" WHERE "name" = 'Account') AND "name" = 'createdAt');
 UPDATE "Identifier" SET "categoryId" = (SELECT "id" FROM "Category" WHERE "name" = 'Category') WHERE "id" = (SELECT "id" FROM "Category" WHERE "name" = 'Folder');
 UPDATE "Identifier" SET "categoryId" = (SELECT "id" FROM "Category" WHERE "name" = 'Field') WHERE "id" = (SELECT "id" FROM "Field" WHERE "categoryId" = (SELECT "id" FROM "Category" WHERE "name" = 'Folder') AND "name" = 'parent');
-UPDATE "Identifier" SET "categoryId" = (SELECT "id" FROM "Category" WHERE "name" = 'Field') WHERE "id" = (SELECT "id" FROM "Field" WHERE "categoryId" = (SELECT "id" FROM "Category" WHERE "name" = 'Folder') AND "name" = 'name');
-UPDATE "Identifier" SET "categoryId" = (SELECT "id" FROM "Category" WHERE "name" = 'Field') WHERE "id" = (SELECT "id" FROM "Field" WHERE "categoryId" = (SELECT "id" FROM "Category" WHERE "name" = 'Folder') AND "name" = 'account');
 UPDATE "Identifier" SET "categoryId" = (SELECT "id" FROM "Category" WHERE "name" = 'Field') WHERE "id" = (SELECT "id" FROM "Field" WHERE "categoryId" = (SELECT "id" FROM "Category" WHERE "name" = 'Folder') AND "name" = 'creator');
+UPDATE "Identifier" SET "categoryId" = (SELECT "id" FROM "Category" WHERE "name" = 'Field') WHERE "id" = (SELECT "id" FROM "Field" WHERE "categoryId" = (SELECT "id" FROM "Category" WHERE "name" = 'Folder') AND "name" = 'name');
 UPDATE "Identifier" SET "categoryId" = (SELECT "id" FROM "Category" WHERE "name" = 'Category') WHERE "id" = (SELECT "id" FROM "Category" WHERE "name" = 'Bookmark');
 UPDATE "Identifier" SET "categoryId" = (SELECT "id" FROM "Category" WHERE "name" = 'Field') WHERE "id" = (SELECT "id" FROM "Field" WHERE "categoryId" = (SELECT "id" FROM "Category" WHERE "name" = 'Bookmark') AND "name" = 'parent');
 UPDATE "Identifier" SET "categoryId" = (SELECT "id" FROM "Category" WHERE "name" = 'Field') WHERE "id" = (SELECT "id" FROM "Field" WHERE "categoryId" = (SELECT "id" FROM "Category" WHERE "name" = 'Bookmark') AND "name" = 'creator');
