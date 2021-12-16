@@ -1,2 +1,2 @@
-async ({ login, password, email }) =>
-  db.pg.insert('Journal', { login, password, email });
+async ({ identifierId, accountId, action }) =>
+  db.pg.insert('Journal', { identifierId, accountId, action });

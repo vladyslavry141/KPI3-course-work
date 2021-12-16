@@ -1,6 +1,6 @@
-async ({ login, password, email }) => {
+async ({ name, creatorId, parentId }) => {
   return db.pg
     .insert('Folder', { login, password, email })
     .returning('*')
-    .then(({ row: [data] }) => data);
+    .then(({ rows: [data] }) => data);
 };

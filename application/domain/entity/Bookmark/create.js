@@ -1,6 +1,6 @@
-async ({ login, password, email }) => {
+async ({ name, parentId, accountId, info, url }) => {
   return db.pg
-    .insert('Bookmark', { login, password, email })
+    .insert('Bookmark', { name, parentId, accountId, info, url })
     .returning('*')
-    .then(({ row: [data] }) => data);
+    .then(({ rows: [data] }) => data);
 };
