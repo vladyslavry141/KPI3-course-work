@@ -466,7 +466,7 @@ window.addEventListener('load', async () => {
     logged = res.status === 'logged';
   }
   if (!logged) {
-    const res = await api.auth.signin({ login: 'marcus', password: 'marcus' });
+    const res = await api.auth.signin({ login: 'aaa', password: 'aaa' });
     if (res.token) {
       localStorage.setItem('metarhia.session.token', res.token);
     }

@@ -9,4 +9,12 @@ async () => {
   };
 
   db.pg = new metarhia.metasql.Database(options);
+
+  if (application.worker.id === 'W1') {
+    const query = 'SELECT NOW() as date;';
+    const {
+      rows: [{ date }],
+    } = await db.pg.query(query, []);
+    console.debug(`Connected to pg at ${date}`);
+  }
 };
