@@ -4,6 +4,6 @@ async (ctx, { id }) => {
     'accountId',
     'email',
   ]);
-  if (!account) return new Error('Not found', 404);
+  if (!account) throw new Error('Not found', 404);
   return { data: { account } };
 };
