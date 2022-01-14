@@ -1,20 +1,15 @@
-async (login, password, email, context) => {
+async (ctx, { password, ...data }) => {
   const hash = await metarhia.metautil.hashPassword(password);
-  let account;
+  let accountId;
   try {
-    account = await domain.entity.Account.create({
-      login,
+    accountId = await domain.module.account.create(ctx, {
+      ...data,
       password: hash,
-      email,
     });
   } catch (error) {
     console.error(error);
-    return { error: 'Invalid data' };
+    throw new Error(error.message, 400);
   }
-  await domain.module.folder.createRoot(
-    { name: account.login },
-    account.accountId
-  );
-  const token = await context.client.startSession();
-  return { status: 'success', token };
+  const token = await ctx.client.startSession();
+  return { status: 'success', data: { token, id: accountId } };
 };

@@ -1,4 +1,5 @@
 ({
   access: 'public',
-  method: async ({ token }) => domain.module.auth.restore(token, context),
+  method: async (data) =>
+    lib.utils.tryReturn(context, data, domain.module.auth.restore),
 });

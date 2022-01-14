@@ -1,4 +1,4 @@
-async (token, data, fields = {}) => {
-  const record = { token, data: JSON.stringify(data), ...fields };
+async ({ data, ...insertData }) => {
+  const record = { data: JSON.stringify(data), ...insertData };
   await db.pg.insert('Session', record);
 };

@@ -1,1 +1,1 @@
-async (token) => domain.entity.Session(token);
+async (token) => domain.entity.Session.deleteByToken(token);

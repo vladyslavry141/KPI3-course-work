@@ -1,3 +1,1 @@
-async (token, data) => {
-  return domain.entity.Session.update(token, { data: JSON.stringify(data) });
-};
+async (token, data) => domain.entity.Session.updateByToken(token, data);

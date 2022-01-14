@@ -1,5 +1,5 @@
 ({
   access: 'public',
-  method: async ({ login, password }) =>
-    domain.module.auth.restore(login, password, context),
+  method: async (data) =>
+    lib.utils.tryReturn(context, data, domain.module.auth.signin),
 });

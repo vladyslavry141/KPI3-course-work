@@ -1,3 +1,1 @@
-async (token, delta) => {
-  return db.pg.update('Session', { delta }, { token }).returning(['*']);
-};
+async (sessionId, delta) => db.pg.update('Session', delta, { sessionId });

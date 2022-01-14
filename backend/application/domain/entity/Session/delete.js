@@ -1,1 +1,1 @@
-async (token) => db.pg.delete('Session', { token });
+async (sessionId) => db.pg.delete('Session', { sessionId });
