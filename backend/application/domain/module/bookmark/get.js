@@ -1,10 +1,6 @@
-async (conditions, accountId) => {
-  const folder = await domain.entity.Folder.getOne(['*'], {
-    ...conditions,
-  });
-
-  if (folder && folder.creatorId !== accountId)
-    throw new Error('Insufficient Permission');
-
-  return folder;
+async (ctx, id) => {
+  const bookmark = await domain.entity.Bookmark.get(id);
+  if (!bookmark) throw new Error('Bookmark is not exists', 403);
+  await domain.module.permission.check(ctx, bookmark, 'Bookmark');
+  return bookmark;
 };

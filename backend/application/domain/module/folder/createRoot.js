@@ -1,14 +1,15 @@
-async (fields, accountId) => {
-  const folder = await domain.entity.Folder.create({
-    ...fields,
+async (accountId) => {
+  const folderId = await domain.entity.Folder.create({
+    name: 'Root',
     creatorId: accountId,
   });
 
   await domain.entity.Journal.create({
     accountId,
+    table: 'Folder',
     action: 'create',
-    identifierId: folder.folderId,
+    identifier: folderId,
   });
 
-  return folder;
+  return folderId;
 };

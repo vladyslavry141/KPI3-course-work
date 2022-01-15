@@ -10,6 +10,8 @@ async (ctx, { password, ...data }) => {
     console.error(error);
     throw new Error(error.message, 400);
   }
-  const token = await ctx.client.startSession();
-  return { status: 'success', data: { token, id: accountId } };
+  const token = domain.module.utils.generateToken();
+  const sessionData = { accountId };
+  await ctx.client.startSession(token, sessionData);
+  return { status: 'success', token, id: accountId };
 };

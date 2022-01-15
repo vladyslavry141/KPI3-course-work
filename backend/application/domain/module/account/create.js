@@ -4,7 +4,9 @@ async (ctx, { login, ...data }) => {
     throw new Error('Login already exists', 400);
   }
   try {
-    return domain.entity.Account.create({ login, ...data });
+    const accountId = await domain.entity.Account.create({ login, ...data });
+    await domain.module.folder.createRoot(accountId);
+    return accountId;
   } catch (error) {
     console.error(error);
     throw new Error('Invalid data', 400);

@@ -1,33 +1,25 @@
-async (folderId, { parentId, ...fields }, accountId) => {
+async (ctx, bookmarkId, { parentId, ...fields }) => {
   if (parentId) {
-    const folder = await domain.entity.Folder.getOne(['*'], {
-      folderId: parentId,
-    });
-
-    if (!folder) throw new Error('Folder is not exists');
-
-    if (folder.creatorId !== accountId)
-      throw new Error('Insufficient Permission');
+    const folder = await domain.entity.Folder.get(parentId);
+    if (!folder) throw new Error('Folder is not exists', 404);
+    await domain.module.permission.check(ctx, folder, 'Folder');
   }
-  const folder = await domain.entity.Folder.getOne(['creatorId'], {
-    folderId,
-  });
 
-  if (!folder) throw new Error('Folder is not exists');
+  const bookmark = await domain.entity.Bookmark.get(bookmarkId);
+  await domain.module.permission.check(ctx, bookmark, 'Bookmark');
+  const filteredFields = lib.utils.filterFields(fields, ['creatorId']);
 
-  if (folder.creatorId !== accountId)
-    throw new Error('Insufficient Permission');
-
-  const updatedFolder = await domain.entity.Folder.update(folderId, {
-    ...fields,
+  await domain.entity.Bookmark.update(bookmarkId, {
+    ...filteredFields,
     ...(parentId ? { parentId } : {}),
   });
 
   await domain.entity.Journal.create({
-    accountId,
+    accountId: ctx.accountId,
+    table: 'Bookmark',
     action: 'write',
-    identifierId: folderId,
+    identifier: bookmarkId,
   });
 
-  return updatedFolder;
+  return true;
 };

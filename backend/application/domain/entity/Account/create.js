@@ -1,8 +1,8 @@
-async ({ name, password, email, login }) => {
+async ({ password, email, login }) => {
   const {
     rows: [{ accountId }],
   } = await db.pg
-    .insert('Account', { name, password, email, login })
+    .insert('Account', { password, email, login })
     .returning(['accountId']);
   return accountId;
 };

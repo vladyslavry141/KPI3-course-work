@@ -1,6 +1,10 @@
-async (ctx, { id, delta }) => {
+async (ctx, id, delta) => {
   try {
-    await domain.entity.Account.update(id, delta);
+    const filteredDelta = lib.utils.filterFields(delta, [
+      'accountId',
+      'createdAt',
+    ]);
+    await domain.entity.Account.update(id, filteredDelta);
   } catch (error) {
     console.error(error);
     return new Error('Invalid data', 422);

@@ -1,1 +1,1 @@
-async (id) => db.pg.delete('Folder', { id });
+async (folderId) => await db.pg.delete('Folder', { folderId });

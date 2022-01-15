@@ -1,2 +1,1 @@
-async ({ identifierId, accountId, action }) =>
-  db.pg.insert('Journal', { identifierId, accountId, action });
+async (data) => await db.pg.insert('Journal', data);

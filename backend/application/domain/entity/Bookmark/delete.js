@@ -1,1 +1,1 @@
-async (id) => db.pg.delete('Bookmark', { id });
+async (bookmarkId) => await db.pg.delete('Bookmark', { bookmarkId });

@@ -1,6 +1,1 @@
-async (id, delta) => {
-  return db.pg
-    .update('Folder', { delta }, { id })
-    .returning(['*'])
-    .then(({ rows: [data] }) => data);
-};
+async (folderId, delta) => await db.pg.update('Folder', delta, { folderId });

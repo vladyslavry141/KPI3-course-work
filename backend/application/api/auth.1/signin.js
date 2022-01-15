@@ -1,5 +1,7 @@
 ({
   access: 'public',
-  method: async (data) =>
-    lib.utils.tryReturn(context, data, domain.module.auth.signin),
+  method: async ({ login, password }) =>
+    lib.utils.tryReturn(context, (ctx) =>
+      domain.module.auth.signin(ctx, login, password)
+    ),
 });

@@ -1,17 +1,16 @@
-async (bookmarkId, accountId) => {
-  const bookmark = await domain.entity.Bookmark.getOne(['creatorId'], {
-    bookmarkId,
-  });
+async (ctx, id) => {
+  const bookmark = await domain.entity.Bookmark.get(id);
+  if (!bookmark) throw new Error('Bookmark is not exists', 403);
+  await domain.module.permission.check(ctx, bookmark, 'Bookmark');
 
-  if (!bookmark) throw new Error('Bookmark is not exists');
-
-  if (creatorId !== accountId) throw new Error('Insufficient Permission');
-
-  domain.entity.Bookmark.delete(bookmarkId);
+  await domain.entity.Bookmark.delete(id);
 
   await domain.entity.Journal.create({
-    accountId,
+    accountId: ctx.accountId,
+    table: 'Bookmark',
     action: 'delete',
-    identifierId: bookmarkId,
+    identifier: id,
   });
+
+  return true;
 };

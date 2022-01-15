@@ -1,1 +1,6 @@
-async (data) => domain.service.account.get(context, data);
+async (data) =>
+  lib.utils.tryReturnObj(
+    context,
+    (ctx) => domain.module.account.get(ctx, data),
+    'account'
+  );

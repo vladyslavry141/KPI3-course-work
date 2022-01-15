@@ -1,4 +1,4 @@
-async (ctx, { login, password }) => {
+async (ctx, login, password) => {
   const [user] = await domain.entity.Account.find({ login });
   if (!user) throw new Error('Incorrect login or password', 400);
   const { accountId, password: hash } = user;
@@ -10,5 +10,5 @@ async (ctx, { login, password }) => {
   ctx.client.startSession(token, data);
   const { ip } = ctx.client;
   await domain.module.session.start(token, data, { ip, accountId });
-  return { status: 'logged', data: { token, id: user.accountId } };
+  return { status: 'logged', token, id: user.accountId };
 };

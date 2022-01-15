@@ -1,6 +1,2 @@
-async (id, delta) => {
-  return db.pg
-    .update('Bookmark', { delta }, { id })
-    .returning(['*'])
-    .then(({ rows: [data] }) => data);
-};
+async (bookmarkId, delta) =>
+  await db.pg.update('Bookmark', delta, { bookmarkId });

@@ -1,6 +1,5 @@
-async ({ name, parentId, accountId, info, url }) => {
-  return db.pg
-    .insert('Bookmark', { name, parentId, accountId, info, url })
-    .returning('*')
-    .then(({ rows: [data] }) => data);
-};
+async ({ name, parentId, creatorId, info, url }) =>
+  await db.pg
+    .insert('Bookmark', { name, parentId, creatorId, info, url })
+    .returning('bookmarkId')
+    .then(({ rows: [{ bookmarkId }] }) => bookmarkId);

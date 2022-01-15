@@ -1,5 +1,5 @@
 ({
-  Registry: {},
+  Entity: {},
 
   parent: { type: 'Folder', delete: 'cascade' },
   creator: { type: 'Account', delete: 'cascade' },

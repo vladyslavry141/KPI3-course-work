@@ -1,17 +1,16 @@
-async (folderId, accountId) => {
-  const folder = await domain.entity.Folder.getOne(['creatorId'], {
-    folderId,
-  });
+async (ctx, id) => {
+  const folder = await domain.entity.Folder.get(id);
+  if (!folder) throw new Error('Folder is not exists', 403);
+  await domain.module.permission.check(ctx, folder, 'Folder');
 
-  if (!folder) throw new Error('Folder is not exists');
-
-  if (creatorId !== accountId) throw new Error('Insufficient Permission');
-
-  domain.entity.Folder.delete(bookmarkId);
+  await domain.entity.Folder.delete(id);
 
   await domain.entity.Journal.create({
-    accountId,
+    accountId: ctx.accountId,
+    table: 'Folder',
     action: 'delete',
-    identifierId: folderId,
+    identifier: id,
   });
+
+  return true;
 };

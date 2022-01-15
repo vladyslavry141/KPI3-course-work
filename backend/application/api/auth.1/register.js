@@ -1,5 +1,7 @@
 ({
   access: 'public',
   method: async (data) =>
-    lib.utils.tryReturn(context, data, domain.module.auth.register),
+    lib.utils.tryReturn(context, (ctx) =>
+      domain.module.auth.register(ctx, data)
+    ),
 });

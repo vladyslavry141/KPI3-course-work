@@ -1,8 +1,3 @@
-interface Identifier {
-  identifierId: number;
-  categoryId?: number;
-}
-
 interface Account {
   accountId: number;
   login: string;
@@ -13,7 +8,7 @@ interface Account {
 
 interface Folder {
   folderId: number;
-  parentId: number;
+  parentId?: number;
   creatorId: number;
   name: string;
 }
@@ -27,24 +22,10 @@ interface Bookmark {
   info: string;
 }
 
-interface Category {
-  categoryId: number;
-  name: string;
-  kind: string;
-  scope: string;
-  store: string;
-  allow: string;
-}
-
-interface Field {
-  fieldId: number;
-  categoryId: number;
-  name: string;
-}
-
 interface Journal {
   journalId: number;
-  identifierId: number;
+  identifier: string;
+  table: string;
   accountId?: number;
   action: string;
   actionDatetime: string;

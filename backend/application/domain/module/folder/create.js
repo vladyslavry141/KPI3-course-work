@@ -1,18 +1,12 @@
-async ({ parentId, ...fields }, accountId) => {
-  const folderError = new Error('Folder is not exists');
+async (ctx, { parentId, ...fields }) => {
+  if (!parentId) throw new Error('Folder is not exists', 404);
+  const parentFolder = await domain.entity.Folder.get(parentId);
+  if (!parentFolder) throw new Error('Folder is not exists', 404);
 
-  if (!parentId) throw folderError;
+  await domain.module.permission.check(ctx, parentFolder, 'Folder');
+  const { accountId } = ctx;
 
-  const folder = await domain.entity.Folder.getOne(['*'], {
-    folderId: parentId,
-  });
-
-  if (!folder) throw folderError;
-
-  if (folder.creatorId !== accountId)
-    throw new Error('Insufficient Permission');
-
-  const folder = await domain.entity.Folder.create({
+  const folderId = await domain.entity.Folder.create({
     ...fields,
     parentId,
     creatorId: accountId,
@@ -20,9 +14,10 @@ async ({ parentId, ...fields }, accountId) => {
 
   await domain.entity.Journal.create({
     accountId,
+    table: 'Folder',
     action: 'create',
-    identifierId: folder.folderId,
+    identifier: folderId,
   });
 
-  return folder;
+  return folderId;
 };
