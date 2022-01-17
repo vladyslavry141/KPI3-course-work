@@ -1,0 +1,20 @@
+@import 'theme.scss';
+
+.header {
+  margin-bottom: 24px;
+  box-shadow: $box-shadow
+}
+
+.bookmarkManager {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  text-align: center;
+  // justify-content: center;
+  align-items: flex-start;
+  padding: 10px;
+}
+
+.row {
+  width: 100%
+}

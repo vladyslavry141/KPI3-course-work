@@ -1,0 +1,21 @@
+@import 'theme.scss';
+
+.header {
+  box-shadow: $box-shadow,
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.home {
+  min-height: 100vh;
+  // min-width: 100vh;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  // justify-content: center;
+  align-items: flex-start;
+}
